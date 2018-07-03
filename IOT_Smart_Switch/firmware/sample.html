@@ -1,0 +1,204 @@
+<html>
+<head>
+<title>Particle Photon Web Server</title>
+
+<script type="text/javascript" src="http://www.mkyong.com/wp-content/uploads/jQuery/jquery-1.4.2.min.js"></script>
+
+<script language="JavaScript">
+<!--
+var AllArr = ['textboxSwitch1_TimerMins', 'checkboxSwitch1_TimerEnable', 'Switch1_Timer', 'Switch2_Timer', 'Switch3_Timer', 'Switch4_Timer'];
+function isArray(value) {
+  if (value) {
+    if (typeof value === 'object') {
+      return (Object.prototype.toString.call(value) == '[object Array]')
+    }
+  }
+  return false;
+}
+function ChangeElementState(state, CheckArr, UncheckArr) {
+  // state = True(Checked)
+  if (state == true) {
+    state =! state
+    if (isArray(CheckArr)) {
+      for (var i = 0, len = CheckArr.length; i < len; ++i) {
+        if (IOT.elements[CheckArr[i]]) {
+          IOT.elements[CheckArr[i]].disabled = state;
+        }
+      }
+    } else {
+      if (IOT.elements[CheckArr]) {
+  		  IOT.elements[CheckArr].disabled = state;
+  	  }
+    }
+  // state = False(Unchecked)
+  } else {
+    state =! state
+    if (isArray(UncheckArr)) {
+      for (var i = 0, len = UncheckArr.length; i < len; ++i) {
+        if (IOT.elements[UncheckArr[i]]) {
+          IOT.elements[UncheckArr[i]].disabled = state;
+        }
+      }
+    } else {
+      if (IOT.elements[UncheckArr]) {
+        IOT.elements[UncheckArr].disabled = state;
+      }
+    }
+  }
+}
+function ChangeElementValue(state, value, TextboxArr, CheckboxArr) {
+  if (isArray(TextboxArr)) {
+    for (var i = 0, len = TextboxArr.length; i < len; ++i) {
+      if (IOT.elements[TextboxArr[i]]) {
+        IOT.elements[TextboxArr[i]].value = value;
+      }
+    }
+  } else {
+    IOT.elements[TextboxArr].value = value;
+  }
+  // Disable check any check boxes
+  // state = False(Unchecked)
+  if ( state == false ) {
+    if (isArray(CheckboxArr)) {
+      for (var i = 0, len = CheckboxArr.length; i < len; ++i) {
+        if (IOT.elements[CheckboxArr[i]]) {
+          IOT.elements[CheckboxArr[i]].checked = state;
+        }
+      }
+    } else {
+      IOT.elements[CheckboxArr].checked = state;
+    }
+  }
+}
+//-->
+</script>
+
+<script type="text/javascript">
+
+$("#fadeOutbox").click(function () {
+   $(this).fadeOut('slow');
+});
+
+$("#fadeInbox").click(function () {
+   $(this).fadeIn(slow);
+});
+</script>
+
+<style type="text/css">
+  BODY { font-family: sans-serif; font-size: 10pt; }
+  H1 { font-size: 14pt; text-decoration: underline }
+  P  { font-size: 10pt; }
+</style>
+</head>
+<body>
+<form name="IOT" action='/form' method='post'>
+<h1> Switch States - Fri Feb 26 22:44:47 2016 </h1> <br>
+Switch 1 is currently <B>OFF</B>. <br>
+<div id="divSwitch1_TimerState" class="divSwitch1_TimerState">
+  <label> Turn Switch 1 <b>ON</b>
+    <input type="checkbox"
+      onclick="var StateCheckArr = ['checkboxSwitch1_TimerEnable'];
+               var StateUncheckArr = ['checkboxSwitch1_TimerEnable',
+                                      'textboxSwitch1_TimerMins',
+                                      'checkboxSwitch1_SchduleEnable',
+                                      'textboxSwitch1_SchduleMins'
+                                     ];
+               ChangeElementState(this.checked, StateCheckArr, StateUncheckArr);
+               var ValueCheckArr = ['textboxSwitch1_TimerMins',
+                                    'textboxSwitch1_SchduleMins'
+                                   ];
+               var ValueUncheckArr = ['checkboxSwitch1_TimerEnable',
+                                      'checkboxSwitch1_SchduleEnable'
+                                     ];
+               ChangeElementValue(this.checked, 0, ValueCheckArr, ValueUncheckArr);"
+      name="checkboxSwitch1_TimerState" value="1"
+    >
+  </label><br>
+</div>
+
+<div id="divSwitch1_TimerEnable" class="divSwitch1_TimerEnable">
+  <label> Enable Timer
+    <input type="checkbox"
+      disabled=""
+      onclick="ChangeElementState(this.checked, ['textboxSwitch1_TimerMins', 'checkboxSwitch1_SchduleEnable'], ['textboxSwitch1_TimerMins','checkboxSwitch1_SchduleEnable','textboxSwitch1_SchduleMins']);
+               ChangeElementValue(this.checked, 0, ['textboxSwitch1_TimerMins','textboxSwitch1_SchduleMins'], ['checkboxSwitch1_TimerEnable','checkboxSwitch1_SchduleEnable']);
+              "
+      name="checkboxSwitch1_TimerEnable"
+      value="1"
+    >
+  </label>
+    <label> Minutes:
+      <input type="number"
+        name="textboxSwitch1_TimerMins"
+        value="0"
+        size="5"
+        style="width:5em"
+        min="0"
+        max="71582"
+        disabled=""
+      >
+    </label>
+</div>
+
+<div id="divSwitch1_SchduleEnable" class="divSwitch1_SchduleEnable">
+  <label> Enable Schdule
+    <input type="checkbox"
+      disabled=""
+      onclick="ChangeElementState(this.checked, ['textboxSwitch1_SchduleHours','textboxSwitch1_SchduleMins','textboxSwitch1_SchduleSecs','textboxSwitch1_SchdulePM'], ['textboxSwitch1_SchduleHours','textboxSwitch1_SchduleMins','textboxSwitch1_SchduleSecs','textboxSwitch1_SchdulePM']);
+               ChangeElementValue(this.checked, 0, 'textboxSwitch1_SchduleMins', 'checkboxSwitch1_SchduleEnable');
+              "
+      name="checkboxSwitch1_SchduleEnable"
+      value="1"
+    >
+  </label>
+  <span>
+      <input name="textboxSwitch1_SchduleHours" size="2" type="number" maxlength="2" min=1 max=12 disabled="" value=""/>:
+  </span>
+  <span>
+      <input name="textboxSwitch1_SchduleMins" size="2" type="number" maxlength="2" min=0 max=59 disabled="" value=""/>:
+  </span>
+  <span>
+      <input name="textboxSwitch1_SchduleSecs" size="2" type="number" maxlength="2" min=0 max=59 disabled="" value=""/>
+  </span>
+  <span>
+      <select style="width:4em" name="textboxSwitch1_SchdulePM" disabled="">
+        <option value="AM" >AM</option>
+        <option value="PM" >PM</option>
+      </select>
+  </span>
+</div>
+
+
+
+<hr>
+
+<div id="fadeInbox" class="fadeInbox">
+    <label> fadeInbox <input type="checkbox" value="1" >
+    </label>
+</div>
+<div id="fadeOutbox" class="fadeOutbox">
+    <label> fadeOutbox <input type="checkbox" value="1" >
+    </label>
+</div>
+
+
+<hr>
+
+<br>
+Switch 2 is currently <B>OFF</B>. <br>
+<label> Turn Switch 2 <B>ON</B> <input type=checkbox onclick="ChangeElementState(this.checked,'Switch2_Timer')" name=Switch2_State value=2 /> </label><br>
+Switch 2 Timer(Minutes): <input type="number" name="Switch2_Timer" value=0 min="0" max="71582" /><br>
+<hr>
+<br>
+Switch 3 is currently <B>OFF</B>. <br>
+<label> Turn Switch 3 <B>ON</B> <input type=checkbox onclick="ChangeElementState(this.checked,'Switch3_Timer')" name=Switch3_State value=3 /> </label><br>
+Switch 3 Timer(Minutes): <input type="number" name="Switch3_Timer" value=0 min="0" max="71582" /><br>
+<hr>
+<br>
+Switch 4 is currently <B>OFF</B>. <br>
+<label> Turn Switch 4 <B>ON</B> <input type=checkbox onclick="ChangeElementState(this.checked,'Switch4_Timer')" name=Switch4_State value=4 /> </label><br>
+Switch 4 Timer(Minutes): <input type="number" name="Switch4_Timer" value=0 min="0" max="71582" /><br>
+<hr>
+<br>
+<INPUT TYPE="button" onClick="history.go(0)" VALUE="Refresh"> <input type='submit' value='Submit'/></form>
+</body></html>
